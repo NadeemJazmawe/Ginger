@@ -17,40 +17,40 @@ on:
 jobs:
     Windows_Builder:
         name: Windows Builder
-        uses: ./.github/workflows/Build-Windows.yml
+        uses: ./.github/workflows/Build/Build-Windows.yml
         secrets: inherit
         
 
     Linux_Builder:
         name: Linux Builder
-        uses: ./.github/workflows/Build-Linux.yml
+        uses: ./.github/workflows/Build/Build-Linux.yml
         secrets: inherit
         
 
     MacOS_Builder:
         name: MacOS Builder
-        uses: ./.github/workflows/Build-MacOS.yml
+        uses: ./.github/workflows/Build/Build-MacOS.yml
         secrets: inherit
         
 
     Windows_Unit-Test:
         name: Windows Unit-Test
         needs: Windows_Builder
-        uses: ./.github/workflows/Test-Windows.yml
+        uses: ./.github/workflows/Test/Test-Windows.yml
         secrets: inherit
         
 
     Linux_Unit-Test:
         name: Linux Unit-Test
         needs: Linux_Builder
-        uses: ./.github/workflows/Test-Linux.yml
+        uses: ./.github/workflows/Test/Test-Linux.yml
         secrets: inherit
         
 
     MacOS_Unit-Test:
         name: MacOS Unit-Test
         needs: MacOS_Builder
-        uses: ./.github/workflows/Test-MacOS.yml
+        uses: ./.github/workflows/Test/Test-MacOS.yml
         secrets: inherit
         
         
