@@ -25,18 +25,13 @@ jobs:
     steps:   
     
 # ------------------------------------------------------------------------------------------------------
-# Copy Ginger repo
-# ------------------------------------------------------------------------------------------------------
-      - name: Code Checkout 
-        if: ${{github.workflow == 'Ginger MacOS Test'}} 
-        uses: actions/checkout@v3
-         
+# Restore static site content
+# ------------------------------------------------------------------------------------------------------ 
       - name: Restore static site content
-        if: ${{github.workflow != 'Ginger MacOS Test'}} 
         uses: actions/cache@v3.2.6
         with:
           path: ./**
-          key: cache-site-${{ github.run_number }}
+          key: cache-site-macos-${{ github.run_number }}
           enableCrossOsArchive:
             truet
 

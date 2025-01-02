@@ -1,4 +1,4 @@
-name: Windows Builder
+name: CI Process
 
 on:
   workflow_call:
