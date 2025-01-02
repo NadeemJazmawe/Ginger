@@ -83,6 +83,7 @@ jobs:
     #   - name: 'Build Ginger Solution'
     #     run: msbuild ./Ginger/Ginger.sln /p:DebugSymbols=true /p:DebugType=full /p:Configuration=$env:BUILD_CONFIGURATION
   
+    
 # ------------------------------------------------------------------------------------------------------
 # Publish GingerRuntime
 # ------------------------------------------------------------------------------------------------------
