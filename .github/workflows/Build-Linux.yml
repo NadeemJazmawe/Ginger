@@ -2,7 +2,6 @@ name: Linux Builder
 
 on:
   workflow_call:
-  workflow_dispatch:
   
   pull_request:
     branches: 
@@ -11,6 +10,10 @@ on:
       - Releases/*
       - Releases/*/*
 
+  push:
+    branches:
+      - '**'
+      
 jobs:
   build:
     runs-on: ubuntu-latest
