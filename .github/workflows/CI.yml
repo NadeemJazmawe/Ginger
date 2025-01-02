@@ -17,7 +17,7 @@ on:
 
 jobs:
     Windows_Builder:
-        name: Windows Builder
+        # name: Windows Builder
         uses: ./.github/workflows/Build-Windows.yml
         secrets: inherit
         
@@ -42,7 +42,7 @@ jobs:
         
 
     Linux_Unit-Test:
-        name: Linux Unit-Test
+        # name: Linux Unit-Test
         needs: Linux_Builder
         uses: ./.github/workflows/Test-Linux.yml
         secrets: inherit
