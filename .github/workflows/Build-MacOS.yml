@@ -3,17 +3,17 @@ name: MacOS Builder
 on:
   workflow_call:
 
-  pull_request:
-    branches: 
-      - master
-      - Features/Linux-Migration
-      - Releases/*
-      - Releases/*/*
+  # pull_request:
+  #   branches: 
+  #     - master
+  #     - Features/Linux-Migration
+  #     - Releases/*
+  #     - Releases/*/*
 
-  push:
-    branches:
-      - '**'
-      
+  # push:
+  #   branches:
+  #     - '**'
+
 jobs:
   build:
     runs-on: macOS-latest

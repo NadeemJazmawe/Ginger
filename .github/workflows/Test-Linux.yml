@@ -1,9 +1,19 @@
 name: Linux Unit-Test
 
 on:
-  workflow_dispatch:
   workflow_call:
+      
+  # pull_request:
+  #   branches: 
+  #     - master
+  #     - Features/Linux-Migration
+  #     - Releases/*
+  #     - Releases/*/*
 
+  # push:
+  #   branches:
+  #     - '**'
+  
 jobs:
   build:
     name: Linux Test
