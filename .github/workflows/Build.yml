@@ -54,8 +54,8 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Update Ginger Version 
 # ------------------------------------------------------------------------------------------------------
-        -   name: 'Update Assembly'
-            if: ${{github.workflow == 'CD'}} 
+        -   name: 'Update Assembly - Windows'
+            if: ${{github.workflow == 'CD' && runner.os == 'Windows'}}
             run: |
                 $save=((Get-Content .\Ginger\GingerCoreCommon/GingerCoreCommon.csproj) -replace '<AssemblyVersion>*.*.*.*</AssemblyVersion>','<AssemblyVersion>${{ env.gingernumber}}</AssemblyVersion>')  -replace '<FileVersion>*.*.*.*</FileVersion>','<FileVersion>${{ env.gingernumber}}</FileVersion>'
                 echo $save > .\Ginger\GingerCoreCommon/GingerCoreCommon.csproj
@@ -65,13 +65,29 @@ jobs:
                 echo $save > .\Ginger\GingerCore\Drivers\JavaDriverLib\GingerJavaAgent\agent\com\amdocs\ginger\GingerAgent.java
                 $save=(Get-Content .\Ginger\GingerInstallerScriptGithub.iss) -replace '#define MyAppVersion "*.*.*.*"','#define MyAppVersion "${{ env.gingernumber}}"'
                 echo $save > .\Ginger\GingerInstallerScriptGithub.iss
-      
-#########################################################################################################################################################                
-######### for Linux and for Windows
-#########################################################################################################################################################
+
+        -   name: 'Update Assembly - Linux'
+            if: ${{github.workflow == 'CD' && runner.os == 'Linux'}}
+            run: |
+                sed -i 's/<AssemblyVersion>.*<\/AssemblyVersion>/<AssemblyVersion>${{ env.gingernumber}}<\/AssemblyVersion>/' ./Ginger/GingerCoreCommon/GingerCoreCommon.csproj
+                sed -i 's/<FileVersion>.*<\/FileVersion>/<FileVersion>${{ env.gingernumber}}<\/FileVersion>/' ./Ginger/GingerCoreCommon/GingerCoreCommon.csproj
+                sed -i 's/#define MyAppVersion ".*"/#define MyAppVersion "${{ env.gingernumber}}"/' ./Ginger/GingerInstallerScript.iss
+                sed -i 's/public static final String GINGER_JAVA_AGENT_VERSION=".*";/public static final String GINGER_JAVA_AGENT_VERSION="${{ env.gingernumber}}";/' ./Ginger/GingerCore/Drivers/JavaDriverLib/GingerJavaAgent/agent/com/amdocs/ginger/GingerAgent.java
+                sed -i 's/#define MyAppVersion ".*"/#define MyAppVersion "${{ env.gingernumber}}"/' ./Ginger/GingerInstallerScriptGithub.iss
+
+        -   name: 'Update Assembly - macOS'
+            if: ${{github.workflow == 'CD' && runner.os == 'macOS'}}
+            run: |
+                sed -i '' 's/<AssemblyVersion>.*<\/AssemblyVersion>/<AssemblyVersion>${{ env.gingernumber}}<\/AssemblyVersion>/' ./Ginger/GingerCoreCommon/GingerCoreCommon.csproj
+                sed -i '' 's/<FileVersion>.*<\/FileVersion>/<FileVersion>${{ env.gingernumber}}<\/FileVersion>/' ./Ginger/GingerCoreCommon/GingerCoreCommon.csproj
+                sed -i '' 's/#define MyAppVersion ".*"/#define MyAppVersion "${{ env.gingernumber}}"/' ./Ginger/GingerInstallerScript.iss
+                sed -i '' 's/public static final String GINGER_JAVA_AGENT_VERSION=".*";/public static final String GINGER_JAVA_AGENT_VERSION="${{ env.gingernumber}}";/' ./Ginger/GingerCore/Drivers/JavaDriverLib/GingerJavaAgent/agent/com/amdocs/ginger/GingerAgent.java
+                sed -i '' 's/#define MyAppVersion ".*"/#define MyAppVersion "${{ env.gingernumber}}"/' ./Ginger/GingerInstallerScriptGithub.iss
+
         -   name: 'Print OS type'
             run: |
                 echo "Running on ${{ runner.os }}"
+                
 # ------------------------------------------------------------------------------------------------------
 # Install .Net core SDK 8.0.100
 # ------------------------------------------------------------------------------------------------------
