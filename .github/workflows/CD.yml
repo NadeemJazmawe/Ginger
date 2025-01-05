@@ -103,7 +103,7 @@ jobs:
     Deploy:
         name: Deploy
         needs: Release
-        uses: ./.github/workflows/Deploy-2.yml
+        uses: ./.github/workflows/Deploy.yml
 
     # Docker:
     #     name: Docker
