@@ -14,13 +14,12 @@ on:
   push:
     branches:
       - '**'
-    paths:
-        - './.github/workflows/Build-Windows.yml'
+
 jobs:
-    # Windows_Builder:
-    #     # name: Windows Builder
-    #     uses: ./.github/workflows/Build-Windows.yml
-    #     secrets: inherit
+    Windows_Builder:
+        name: Windows Builder
+        uses: ./.github/workflows/Build-Windows.yml
+        secrets: inherit
         
 
     Linux_Builder:
@@ -35,11 +34,11 @@ jobs:
         secrets: inherit
         
 
-    # Windows_Unit-Test:
-    #     name: Windows Unit-Test
-    #     needs: Windows_Builder
-    #     uses: ./.github/workflows/Test-Windows.yml
-    #     secrets: inherit
+    Windows_Unit-Test:
+        name: Windows Unit-Test
+        needs: Windows_Builder
+        uses: ./.github/workflows/Test-Windows.yml
+        secrets: inherit
         
 
     Linux_Unit-Test:
