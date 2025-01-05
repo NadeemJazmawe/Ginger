@@ -15,7 +15,8 @@ on:
   #     - '**'
 
 jobs:
-    build:
+    Test:
+        name: ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
@@ -100,17 +101,17 @@ jobs:
             if: runner.os == 'Windows'
             run: msbuild ./Ginger/Ginger.sln /p:DebugSymbols=true /p:DebugType=full /p:Configuration=$env:BUILD_CONFIGURATION
 
-        -   name: 'Publish GingerRuntime'
+        -   name: 'Publish GingerRuntime - Ubuntu'
             if: runner.os == 'Ubuntu'
             run: dotnet publish ./Ginger/GingerRuntime/GingerRuntime.csproj --runtime linux-x64 --self-contained  true -c Release
      
-        -   name: 'Publish GingerRuntime'
+        -   name: 'Publish GingerRuntime - macOS'
             if: runner.os == 'macOS'
             run: dotnet publish ./Ginger/GingerRuntime/GingerRuntime.csproj --runtime osx-x64 --self-contained true -c Release
 # ------------------------------------------------------------------------------------------------------
 # Upload Artifacts 
 # ------------------------------------------------------------------------------------------------------   
-        -   name: Cache static site content
+        -   name: Cache static site content - Windows
             id: cache_windows
             if: runner.os == 'Windows'
             uses: actions/cache@v3.2.6
@@ -122,7 +123,7 @@ jobs:
                 enableCrossOsArchive:
                     true
 
-        -   name: Cache static site content
+        -   name: Cache static site content - Ubuntu
             id: cache_ubuntu
             if: runner.os == 'Ubuntu'
             uses: actions/cache@v3.2.6
@@ -135,7 +136,7 @@ jobs:
                     true
             
             
-        -   name: Cache static site content
+        -   name: Cache static site content - macOS
             id: cache_macos
             if: runner.os == 'macOS'
             uses: actions/cache@v3.2.6
