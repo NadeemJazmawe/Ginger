@@ -60,6 +60,9 @@ jobs:
       - name: Building GingerRuntime docker image
         run: |
           cd Ginger/GingerRuntime
+          echo "==========================================================="
+          ls -altr ./bin/Release/net8.0/publish
+          echo "==========================================================="
           docker build -t gingerruntime .
         
       - name: Change image tag to be pushed for GHCR
