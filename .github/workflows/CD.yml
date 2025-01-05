@@ -94,19 +94,19 @@ jobs:
         uses: ./.github/workflows/Test.yml
         secrets: inherit
      
-    Release:
-        name: Release
-        needs: Ginger_Unit-Test
-        uses: ./.github/workflows/Release-2.yml
-        secrets: inherit
+    # Release:
+    #     name: Release
+    #     needs: Ginger_Unit-Test
+    #     uses: ./.github/workflows/Release-2.yml
+    #     secrets: inherit
      
-    Deploy:
-        name: Deploy
-        needs: Release
-        uses: ./.github/workflows/Deploy-2.yml
+    # Deploy:
+    #     name: Deploy
+    #     needs: Release
+    #     uses: ./.github/workflows/Deploy-2.yml
 
-    Docker:
-        name: Docker
-        needs: Ginger_Unit-Test
-        uses: ./.github/workflows/Docker.yml
-        secrets: inherit
+    # Docker:
+    #     name: Docker
+    #     needs: Ginger_Unit-Test
+    #     uses: ./.github/workflows/Docker.yml
+    #     secrets: inherit
