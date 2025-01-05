@@ -16,8 +16,11 @@ on:
 
 jobs:
     build:
-        name: Windows Test
-        runs-on: windows-latest
+        name: ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest, macos-latest]
     
         env:
             BUILD_CONFIGURATION: "Release"
@@ -102,19 +105,49 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Run .Net Framework tests using powershell and publish the results
 # ------------------------------------------------------------------------------------------------------
-        -   name: Run tests for Ginger .NetFramework *Test Dlls
+        -   name: Run tests for Ginger .NetFramework *Test Dlls for Windows
             if: success() || failure() && startsWith(runner.os, 'Windows')        # run this step even if previous step failed and if the OS is Windows
             run: powershell -file "TestDotNetFrameworkGithub.ps1"
+  
+# ------------------------------------------------------------------------------------------------------
+# Run Standalone CLI Test
+# ------------------------------------------------------------------------------------------------------          
+        -   name: Run Standalone CLI Test for Ubuntu
+            if: success() || failure() && startsWith(runner.os, 'Linux')       # run this step even if previous step failed
+            shell: bash
+            run: |
+                pwd 
+                ls -alt
+                chmod +x CLITestsGithub.sh
+                sudo apt install dos2unix
+                dos2unix -b CLITestsGithub.sh
+                ./CLITestsGithub.sh
         
 # ------------------------------------------------------------------------------------------------------
 # Publish Test Results
 # ------------------------------------------------------------------------------------------------------
-        -   name: Test Report
+        -   name: Test Report - Windows
             uses: dorny/test-reporter@v1
             if: success() || failure() && startsWith(runner.os, 'Windows')        # run this step even if previous step failed
             with:
                 name: Ginger Windows UnitTests    # Name of the check run which will be created
                 path: "D:/a/TestResults/*.trx"                # Path to test results
                 reporter: dotnet-trx            # Format of test results
+                
+        -   name: Test Report - Ubuntu
+            uses: dorny/test-reporter@v1
+            if: success() || failure()   && startsWith(runner.os, 'ubuntu')      # run this step even if previous step failed
+            with:
+                name: Ginger Linux UnitTests    # Name of the check run which will be created
+                path: "**/*.trx"                # Path to test results
+                reporter: dotnet-trx            # Format of test results 
+
+        -   name: Test Report - MacOS
+            uses: dorny/test-reporter@v1
+            if: success() || failure()  && startsWith(runner.os, 'macos')       # run this step even if previous step failed
+            with:
+                name: Ginger MacOS UnitTests    # Name of the check run which will be created
+                path: "**/*.trx"                # Path to test results
+                reporter: dotnet-trx            # Format of test results    
                 
    
