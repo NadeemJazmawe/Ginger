@@ -20,6 +20,12 @@ jobs:
         name: Ginger Builder
         uses: ./.github/workflows/Build.yml
         secrets: inherit
+
+    Ginger_Unit-Test:
+        name: Ginger Unit-Test
+        needs: Builder
+        uses: ./.github/workflows/Test.yml
+        secrets: inherit
     # Windows_Builder:
     #     name: Windows Builder
     #     uses: ./.github/workflows/Build-Windows.yml
