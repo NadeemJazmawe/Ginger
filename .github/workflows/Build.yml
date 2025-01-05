@@ -104,7 +104,7 @@ jobs:
             run: msbuild ./Ginger/Ginger.sln /p:DebugSymbols=true /p:DebugType=full /p:Configuration=$env:BUILD_CONFIGURATION
 
         -   name: 'Publish GingerRuntime - Ubuntu'
-            if: runner.os == 'Ubuntu'
+            if: runner.os == 'Linux'
             run: dotnet publish ./Ginger/GingerRuntime/GingerRuntime.csproj --runtime linux-x64 --self-contained  true -c Release
      
         -   name: 'Publish GingerRuntime - macOS'
@@ -127,7 +127,7 @@ jobs:
 
         -   name: Cache static site content - Ubuntu
             id: cache_ubuntu
-            if: runner.os == 'Ubuntu'
+            if: runner.os == 'Linux'
             uses: actions/cache@v3.2.6
             with:
                 path: 
