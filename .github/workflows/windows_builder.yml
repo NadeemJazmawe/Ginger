@@ -1,0 +1,8 @@
+windows_builder2: &windows_builder2
+  name: Windows Builder
+  runs-on: windows-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build on Windows
+      run: echo "Building on Windows"

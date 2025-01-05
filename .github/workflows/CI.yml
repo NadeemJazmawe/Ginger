@@ -16,6 +16,9 @@ on:
       - '**'
 
 jobs:
+    Windows_Builder2:
+        <<: *windows_builder2
+
     Windows_Builder:
         name: Windows Builder
         uses: ./.github/workflows/Build-Windows.yml

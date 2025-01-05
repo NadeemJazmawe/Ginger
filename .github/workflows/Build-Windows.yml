@@ -16,7 +16,6 @@ on:
 
 jobs:
   build:
-    name: Windows Builder
     runs-on: windows-latest
     
     env:
