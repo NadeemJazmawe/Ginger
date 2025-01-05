@@ -16,14 +16,14 @@ on:
       - '**'
 
 jobs:
-    # Builder:
-    #     name: Ginger Builder
-    #     uses: ./.github/workflows/Build.yml
-    #     secrets: inherit
-    Windows_Builder:
-        name: Windows Builder
-        uses: ./.github/workflows/Build-Windows.yml
+    Builder:
+        name: Ginger Builder
+        uses: ./.github/workflows/Build.yml
         secrets: inherit
+    # Windows_Builder:
+    #     name: Windows Builder
+    #     uses: ./.github/workflows/Build-Windows.yml
+    #     secrets: inherit
         
 
     # Linux_Builder:
