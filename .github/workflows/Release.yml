@@ -36,14 +36,14 @@ jobs:
                     echo "==========================================================="
                     ls -altr ./Ginger/GingerRuntime/bin/Release/net8.0
                     echo "==========================================================="
-                    ls -altr ./Ginger/GingerRuntime/bin/Release/net8.0/linux-x64
+                    ls -altr ./Ginger/GingerRuntime/bin/Release/net8.0/osx-x64
                     echo "==========================================================="
 
-                    find ./Ginger/GingerRuntime/bin/Release/net8.0/linux-x64/selenium-manager -type f -print0 | xargs -0 chmod +x
+                    find ./Ginger/GingerRuntime/bin/Release/net8.0/osx-x64/selenium-manager -type f -print0 | xargs -0 chmod +x
     
             -   uses: sibiraj-s/action-archiver@v1
                 with:
-                    path: './Ginger/GingerRuntime/bin/Release/net8.0/linux-x64'
+                    path: './Ginger/GingerRuntime/bin/Release/net8.0/osx-x64'
                     format: tar
                     gzip: true
                     output: ./Runtime/GingerMacOSRuntime.tar.gz
