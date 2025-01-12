@@ -29,6 +29,7 @@ jobs:
 # Createin version Tag & Number variables - only for CD Job
 # ------------------------------------------------------------------------------------------------------
         -   name: Print files
+            if: ${{ runner.os == 'Windows'}} 
             run: |  
                 ls D:\a\
                 echo "===================================================================="
@@ -36,7 +37,7 @@ jobs:
                 echo "===================================================================="
                 ls D:\a\Ginger\Ginger
                 echo "===================================================================="
-                
+
             
         -   name: Create Version Environment Variable - Windows
             if: ${{github.workflow == 'CD' && runner.os == 'Windows'}} 
