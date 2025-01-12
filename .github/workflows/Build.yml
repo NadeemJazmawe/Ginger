@@ -42,7 +42,6 @@ jobs:
                     Write-Output "Official Version"
                     Write-Output "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $env:GITHUB_ENV
                 }
-                Write-Output "ginger gingernumber $env:gingernumber"
 
         -   name: Create Version Environment Variable - Linux and macOS
             if: ${{github.workflow == 'CD' && (runner.os == 'Linux' || runner.os == 'macOS')}} 
@@ -58,7 +57,11 @@ jobs:
                     echo "Official Version"
                     echo "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
                 fi
-                echo "ginger gingernumber ${{ env.gingernumber}}"
+
+        -   name: Print Version Environment Variable
+            run: |
+                echo "GingerNumber Version: ${{ env.gingernumber}}"
+                
           
 # ------------------------------------------------------------------------------------------------------
 # Copy Ginger repo
