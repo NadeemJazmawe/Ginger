@@ -83,6 +83,7 @@ jobs:
 
   Publish_Latest:
     name: Publish Latest
+    needs: build
     runs-on: ubuntu-latest
     environment: Deploy
     permissions:
