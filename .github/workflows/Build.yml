@@ -59,6 +59,7 @@ jobs:
                 fi
 
         -   name: Print Version Environment Variable
+            if: ${{github.workflow == 'CD'}} 
             run: |
                 echo "GingerNumber Version: ${{ env.gingernumber}}"
                 

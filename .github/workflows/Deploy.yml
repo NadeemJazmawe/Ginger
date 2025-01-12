@@ -28,7 +28,11 @@ jobs:
                       echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Official" >> $GITHUB_ENV
                   fi
                   echo "ginger gingertag ${{env.gingertag}}"
-           
+
+          -   name: Print Version Environment Variable
+              if: ${{github.workflow == 'CD'}} 
+              run: |
+                  echo "GingerNumber Version: ${{ env.gingernumber}}"
           
 # ------------------------------------------------------------------------------------------------------
 # Copy Ginger repo
