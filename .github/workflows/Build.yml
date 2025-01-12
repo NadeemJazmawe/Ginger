@@ -27,24 +27,22 @@ jobs:
         steps:
 # ------------------------------------------------------------------------------------------------------
 # Createin version Tag & Number variables - only for CD Job
-# ------------------------------------------------------------------------------------------------------
-        -   name: Restore Version text file
-            if: ${{github.workflow == 'CD'}}  
-            uses: actions/cache@v3.2.6
-            with:
-                path: ./version.txt
-                key: cache-version-${{ github.run_number }}
-                enableCrossOsArchive:
-                    true
-            
-        -   name: Create variables from Artifacts file
+# ------------------------------------------------------------------------------------------------------          
+        -   name: Create Version Environment Variable
             if: ${{github.workflow == 'CD'}} 
-            shell: bash
+            id: set_version
             run: |
-                source version.txt
-                echo $TAG
-                echo "gingernumber=$NUMBER" >> $GITHUB_ENV
-                echo "gingertag=$TAG" >> $GITHUB_ENV
+                if [[ ${{github.event.inputs.revision}} != 0 ]]; then 
+                    echo "Alpha Version"
+                    echo "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
+                elif [[ ${{github.event.inputs.build}} != 0 && ${{github.event.inputs.revision}} == 0 ]]; then
+                    echo "Beta Version"
+                    echo "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
+                elif [[ ${{github.event.inputs.build}} == 0  &&  ${{github.event.inputs.revision}} == 0 ]]; then
+                    echo "Official Version"
+                    echo "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
+                fi
+                echo "ginger gingernumber ${{ env.gingernumber}}"
           
 # ------------------------------------------------------------------------------------------------------
 # Copy Ginger repo

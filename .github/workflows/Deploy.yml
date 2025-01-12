@@ -13,22 +13,22 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Createin version Tag & Number variables 
 # ------------------------------------------------------------------------------------------------------
-          - name: Restore Version text file
-            if: ${{github.workflow == 'CD'}}  
-            uses: actions/cache@v3.2.6
-            with:
-              path: ./version.txt
-              key: cache-version-${{ github.run_number }}
-              enableCrossOsArchive:
-                true   
-
-          - name: Create variables from Artifacts file
-            shell: bash
-            run: |
-              source version.txt
-              echo $TAG
-              echo "gingernumber=$NUMBER" >> $GITHUB_ENV
-              echo "gingertag=$TAG" >> $GITHUB_ENV
+          -   name: Create Version Environment Variable
+              id: set_version
+              if: ${{github.workflow == 'CD'}} 
+              run: |
+                  if [[ ${{github.event.inputs.revision}} != 0 ]]; then 
+                      echo "Alpha Version"
+                      echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Alpha.${{github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
+                  elif [[ ${{github.event.inputs.build}} != 0 && ${{github.event.inputs.revision}} == 0 ]]; then
+                      echo "Beta Version"
+                      echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Beta.${{ github.event.inputs.build}}" >> $GITHUB_ENV
+                  elif [[ ${{github.event.inputs.build}} == 0  &&  ${{github.event.inputs.revision}} == 0 ]]; then
+                      echo "Official Version"
+                      echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Official" >> $GITHUB_ENV
+                  fi
+                  echo "ginger gingertag ${{env.gingertag}}"
+           
           
 # ------------------------------------------------------------------------------------------------------
 # Copy Ginger repo
@@ -46,13 +46,13 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Download GingerRuntime Artifact
 # ------------------------------------------------------------------------------------------------------
-          - name: Restore GingerRuntime
-            uses: actions/cache@v3.2.6
-            with:
-              path: ./GingerRuntime-root.tar.gz
-              key: cache-GingerRuntime-${{ github.run_number }}
-              enableCrossOsArchive:
-                true
+          -   name: Restore GingerRuntime
+              uses: actions/cache@v3.2.6
+              with:
+                  path: ./GingerRuntime-root.tar.gz
+                  key: cache-GingerRuntime-${{ github.run_number }}
+                  enableCrossOsArchive:
+                      true
 
 # ------------------------------------------------------------------------------------------------------
 # Download GingerMacOSRuntime Artifact
@@ -68,15 +68,15 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Create new Release for ginger
 # ------------------------------------------------------------------------------------------------------
-          - name: Create Github Release
-            id: create-new-release
-            uses: GongT/actions-recreate-release@v1
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-            with:
-              tag_name: v${{ env.gingertag}}
-              release_name: Ginger v${{ env.gingertag}}
-              draft: true
+          -   name: Create Github Release
+              id: create-new-release
+              uses: GongT/actions-recreate-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+              with:
+                  tag_name: v${{ env.gingertag}}
+                  release_name: Ginger v${{ env.gingertag}}
+                  draft: true
 
 # ------------------------------------------------------------------------------------------------------
 # Upload GingerRuntime.tar.gz to Github Releases 

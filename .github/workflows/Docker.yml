@@ -23,22 +23,25 @@ jobs:
     env:
       BUILD_CONFIGURATION: Release
       
-    steps: 
-      - name: Restore Version text file
-        uses: actions/cache@v3.2.6
-        with:
-          path: ./version.txt
-          key: cache-version-${{ github.run_number }}
-          enableCrossOsArchive:
-            true     
-   
-      - name: Create variables from Version text file 
-        shell: bash
-        run: |
-          source version.txt
-          echo $TAG
-          echo "gingernumber=$NUMBER" >> $GITHUB_ENV
-          echo "gingertag=$TAG" >> $GITHUB_ENV
+    steps:    
+# ------------------------------------------------------------------------------------------------------
+# Createin version Tag & Number variables 
+# ------------------------------------------------------------------------------------------------------
+      -   name: Create Version Environment Variable
+          id: set_version
+          if: ${{github.workflow == 'CD'}} 
+          run: |
+              if [[ ${{github.event.inputs.revision}} != 0 ]]; then 
+                  echo "Alpha Version"
+                  echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Alpha.${{github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $GITHUB_ENV
+              elif [[ ${{github.event.inputs.build}} != 0 && ${{github.event.inputs.revision}} == 0 ]]; then
+                  echo "Beta Version"
+                  echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Beta.${{ github.event.inputs.build}}" >> $GITHUB_ENV
+              elif [[ ${{github.event.inputs.build}} == 0  &&  ${{github.event.inputs.revision}} == 0 ]]; then
+                  echo "Official Version"
+                  echo "gingertag=20${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}-Official" >> $GITHUB_ENV
+              fi
+              echo "ginger gingertag ${{env.gingertag}}"
           
       - name: Restore static site content
         uses: actions/cache@v3.2.6
