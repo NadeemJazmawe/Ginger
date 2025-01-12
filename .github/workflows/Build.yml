@@ -28,9 +28,25 @@ jobs:
 # ------------------------------------------------------------------------------------------------------
 # Createin version Tag & Number variables - only for CD Job
 # ------------------------------------------------------------------------------------------------------          
-        -   name: Create Version Environment Variable
-            if: ${{github.workflow == 'CD'}} 
-            id: set_version
+        -   name: Create Version Environment Variable - Windows
+            if: ${{github.workflow == 'CD' && runner.os == 'Windows'}} 
+            id: set_version_windows
+            run: |
+                if ($env:GITHUB_EVENT_INPUTS_REVISION -ne 0) {
+                    Write-Output "Alpha Version"
+                    Write-Output "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $env:GITHUB_ENV
+                } elseif ($env:GITHUB_EVENT_INPUTS_BUILD -ne 0 -and $env:GITHUB_EVENT_INPUTS_REVISION -eq 0) {
+                    Write-Output "Beta Version"
+                    Write-Output "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $env:GITHUB_ENV
+                } elseif ($env:GITHUB_EVENT_INPUTS_BUILD -eq 0 -and $env:GITHUB_EVENT_INPUTS_REVISION -eq 0) {
+                    Write-Output "Official Version"
+                    Write-Output "gingernumber=${{ github.event.inputs.major}}.${{ github.event.inputs.minor}}.${{ github.event.inputs.build}}.${{ github.event.inputs.revision}}" >> $env:GITHUB_ENV
+                }
+                Write-Output "ginger gingernumber $env:gingernumber"
+
+        -   name: Create Version Environment Variable - Linux and macOS
+            if: ${{github.workflow == 'CD' && (runner.os == 'Linux' || runner.os == 'macOS')}} 
+            id: set_version_unix
             run: |
                 if [[ ${{github.event.inputs.revision}} != 0 ]]; then 
                     echo "Alpha Version"
