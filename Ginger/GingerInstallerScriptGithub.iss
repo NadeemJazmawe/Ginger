@@ -61,7 +61,7 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall shellexec skipifsilent;
-Filename: "{app}\setup.bat"; Flags: runhidden;
+Filename: "{app}\SetGingerExe.bat"; Flags: runhidden;
 [Code]
 
 //################################################### General Parameters #######################################
