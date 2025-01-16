@@ -34,30 +34,29 @@ on:
           - 'No'  # Do not add SSL certificate
 jobs:            
     Builder:
-        name: CD
-        runs-on: windows-latest
-        steps:
-            -   name: Restore static site content
-                uses: actions/cache@v4
-                with:
-                    path: ./**
-                    key: cache-site-windows-${{ github.run_number }}
-                    enableCrossOsArchive:
-                        true       
-            
-            -   uses: nadeemjazmawe/inno-setup-action-cli@v6.0.5
-                with: 
-                    filepath: './Ginger/inno.iss'  
-                  
-            - name: print files 
-              if: ${{ github.event.inputs.SSLCert != 'No' }}
-              run: |    
-                  ls
-                    
-            -   name: Upload Windows Installer
-                uses: actions/upload-artifact@v3
-                with:
-                  name: WindowsInstaller
-                  path: D:/a/Installers
-            
-        
+        name: Ginger Builder
+        uses: ./.github/workflows/Build.yml
+        secrets: inherit
+
+    # Ginger_Unit-Test:
+    #     name: Ginger Unit-Test
+    #     needs: Builder
+    #     uses: ./.github/workflows/Test.yml
+    #     secrets: inherit
+     
+    Release:
+        name: Release
+        needs: Builder
+        uses: ./.github/workflows/Release.yml
+        secrets: inherit
+     
+    Deploy:
+        name: Deploy
+        needs: Release
+        uses: ./.github/workflows/Deploy.yml
+
+    Docker:
+        name: Docker
+        needs: Builder
+        uses: ./.github/workflows/Docker.yml
+        secrets: inherit
