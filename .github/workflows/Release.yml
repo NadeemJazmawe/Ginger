@@ -316,8 +316,7 @@ jobs:
                  #cert-password: ${{ secrets.PEM_PASS }}
             
             
-            -   name: Create Signed Directory
-                if: ${{ github.event.inputs.SSLCert != 'No' }}
+            -   name: Print files
                 run: |
                     ls
                 
