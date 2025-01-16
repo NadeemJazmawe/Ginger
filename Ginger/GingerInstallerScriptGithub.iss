@@ -8,7 +8,6 @@ Compression=lzma
 SolidCompression=yes
 OutputDir=D:\a\Installers
 
-
 [Files]
 Source: "SetGingerExe.bat"; DestDir: "{app}"; Flags: ignoreversion
 
@@ -16,6 +15,15 @@ Source: "SetGingerExe.bat"; DestDir: "{app}"; Flags: ignoreversion
 Filename: "{app}\SetGingerExe.bat"; Flags: runhidden
 
 [Code]
+const
+  SMTO_ABORTIFHUNG = 2;
+  HWND_BROADCAST = $FFFF;
+  WM_SETTINGCHANGE = $1A;
+
+function SendMessageTimeout(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM;
+  fuFlags: UINT; uTimeout: UINT; var lpdwResult: DWORD): LRESULT;
+  external 'SendMessageTimeoutA@user32.dll stdcall';
+
 procedure AddToPath;
 var
   Path: string;
