@@ -318,7 +318,7 @@ jobs:
             
             -   name: Print files
                 run: |
-                    ls
+                    ls D:\a\Installers
                 
             -   name: Upload Windows Installer
                 uses: actions/upload-artifact@v3

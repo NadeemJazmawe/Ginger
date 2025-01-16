@@ -6,6 +6,7 @@ DefaultGroupName=Ginger
 OutputBaseFilename=GingerSetup
 Compression=lzma
 SolidCompression=yes
+OutputDir=D:\a\Installers
 
 [Files]
 Source: "SetGingerExe.bat"; DestDir: "{app}"; Flags: ignoreversion
