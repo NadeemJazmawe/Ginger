@@ -33,10 +33,10 @@ on:
           - 'Yes' # Add SSL certificate
           - 'No'  # Do not add SSL certificate
 jobs:            
-    Builder:
-        name: Ginger Builder
-        uses: ./.github/workflows/Build.yml
-        secrets: inherit
+    # Builder:
+    #     name: Ginger Builder
+    #     uses: ./.github/workflows/Build.yml
+    #     secrets: inherit
 
     # Ginger_Unit-Test:
     #     name: Ginger Unit-Test
@@ -46,7 +46,7 @@ jobs:
      
     Release:
         name: Release
-        needs: Builder
+        # needs: Builder
         uses: ./.github/workflows/Release.yml
         secrets: inherit
      
@@ -55,8 +55,8 @@ jobs:
         needs: Release
         uses: ./.github/workflows/Deploy.yml
 
-    Docker:
-        name: Docker
-        needs: Builder
-        uses: ./.github/workflows/Docker.yml
-        secrets: inherit
+    # Docker:
+    #     name: Docker
+    #     needs: Builder
+    #     uses: ./.github/workflows/Docker.yml
+    #     secrets: inherit
