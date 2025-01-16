@@ -314,7 +314,13 @@ jobs:
                 # filepath: 'D:\a\Installers\Ginger.exe'   
                  #certificate: ${{ secrets.PEM }}
                  #cert-password: ${{ secrets.PEM_PASS }}
-                    
+            
+            
+            -   name: Create Signed Directory
+                if: ${{ github.event.inputs.SSLCert != 'No' }}
+                run: |
+                    ls
+                
             -   name: Upload Windows Installer
                 uses: actions/upload-artifact@v3
                 with:
